@@ -31,7 +31,9 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Date.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.from_date(epoch_time)).to eq 9
+      expect(described_class.from_date(epoch_time)).to eq(
+        described_class.new(9)
+      )
     end
   end
 
@@ -39,7 +41,9 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.from_time(epoch_time)).to eq 9
+      expect(described_class.from_time(epoch_time)).to eq(
+        described_class.new(9)
+      )
     end
   end
 
@@ -47,7 +51,9 @@ RSpec.describe Biz::Day do
     let(:epoch_time) { Time.new(2006, 1, 10) }
 
     it 'creates the proper day' do
-      expect(described_class.since_epoch(epoch_time)).to eq 9
+      expect(described_class.since_epoch(epoch_time)).to eq(
+        described_class.new(9)
+      )
     end
   end
 

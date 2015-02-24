@@ -5,6 +5,7 @@ module Biz
     TIMESTAMP_PATTERN = /(?<hour>\d{2}):(?<minute>\d{2})/
 
     include Comparable
+    include Concord.new(:day_minute)
 
     extend Forwardable
 
@@ -38,8 +39,6 @@ module Biz
 
     end
 
-    attr_reader :day_minute
-
     delegate strftime: :day_time
 
     delegate %i[
@@ -48,7 +47,7 @@ module Biz
     ] => :day_minute
 
     def initialize(day_minute)
-      @day_minute = Integer(day_minute)
+      super(Integer(day_minute))
     end
 
     def hour
@@ -63,11 +62,13 @@ module Biz
       format(TIMESTAMP_FORMAT, hour, minute)
     end
 
-    def coerce(other)
-      [self.class.new(other), self]
+    def +(other)
+      self.class.new(day_minute + other.day_minute)
     end
 
-    protected
+    def coerce(other)
+      [self.class.new(Integer(other)), self]
+    end
 
     def <=>(other)
       return nil unless other.respond_to?(:to_i)

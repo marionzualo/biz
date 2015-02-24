@@ -4,6 +4,7 @@ require 'forwardable'
 require 'set'
 
 require 'abstract_type'
+require 'concord'
 require 'equalizer'
 require 'memoizable'
 require 'tzinfo'

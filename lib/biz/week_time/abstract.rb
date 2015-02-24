@@ -27,7 +27,7 @@ module Biz
       end
 
       def coerce(other)
-        [self.class.new(other), self]
+        [self.class.new(Integer(other)), self]
       end
 
       delegate wday: :day_of_week
@@ -46,8 +46,6 @@ module Biz
         to_i
         to_int
       ] => :week_minute
-
-      protected
 
       def <=>(other)
         return nil unless other.respond_to?(:to_i)

@@ -4,13 +4,13 @@ RSpec.describe Biz::DayOfWeek do
   context 'when initializing' do
     context 'with an integer' do
       it 'is successful' do
-        expect(described_class.new(1).wday).to eq 1
+        expect(described_class.new(1)).to eq Biz::DayOfWeek::MONDAY
       end
     end
 
     context 'with an valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1').wday).to eq 1
+        expect(described_class.new('1')).to eq Biz::DayOfWeek::MONDAY
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Biz::DayOfWeek do
     let(:epoch_time) { Time.new(2006, 1, 1) }
 
     it 'creates the proper day of the week' do
-      expect(described_class.from_time(epoch_time).wday).to eq 0
+      expect(described_class.from_time(epoch_time)).to eq Biz::DayOfWeek::SUNDAY
     end
   end
 
@@ -39,13 +39,15 @@ RSpec.describe Biz::DayOfWeek do
     let(:date) { Date.new(2006, 1, 3) }
 
     it 'creates the proper day of the week' do
-      expect(described_class.from_date(date).wday).to eq 2
+      expect(described_class.from_date(date)).to eq Biz::DayOfWeek::TUESDAY
     end
   end
 
   describe '.from_symbol' do
     it 'creates the proper day of the week' do
-      expect(described_class.from_symbol(:wed).wday).to eq 3
+      expect(described_class.from_symbol(:wed)).to eq(
+        Biz::DayOfWeek::WEDNESDAY
+      )
     end
   end
 
@@ -58,6 +60,18 @@ RSpec.describe Biz::DayOfWeek do
   describe '.last' do
     it 'returns the last day of the week' do
       expect(described_class.last).to eq Biz::DayOfWeek::SATURDAY
+    end
+  end
+
+  describe '#to_int' do
+    it 'returns the wday' do
+      expect(day.to_int).to eq 1
+    end
+  end
+
+  describe '#to_i' do
+    it 'returns the wday' do
+      expect(day.to_i).to eq 1
     end
   end
 

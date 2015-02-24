@@ -10,7 +10,7 @@ module Biz
     def intervals
       raw.business_hours.flat_map { |weekday, hours|
         weekday_intervals(weekday, hours)
-      }.sort_by(&:start_time)
+      }.sort
     end
 
     def holidays
@@ -32,11 +32,11 @@ module Biz
         Interval.new(
           WeekTime.start(
             DayOfWeek.from_symbol(weekday).start_minute +
-              DayTime.from_timestamp(start_timestamp).day_minute
+              DayTime.from_timestamp(start_timestamp)
           ),
           WeekTime.end(
             DayOfWeek.from_symbol(weekday).start_minute +
-              DayTime.from_timestamp(end_timestamp).day_minute
+              DayTime.from_timestamp(end_timestamp)
           ),
           time_zone
         )

@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.files       = Dir['lib/**/*', 'README.md']
 
   gem.add_runtime_dependency     'abstract_type', '~> 0.0.0'
+  gem.add_runtime_dependency     'concord',       '~> 0.1.0'
   gem.add_runtime_dependency     'equalizer',     '~> 0.0.0'
   gem.add_runtime_dependency     'memoizable',    '~> 0.4.0'
   gem.add_runtime_dependency     'tzinfo'

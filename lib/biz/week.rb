@@ -55,8 +55,6 @@ module Biz
       [self.class.new(other), self]
     end
 
-    protected
-
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
 

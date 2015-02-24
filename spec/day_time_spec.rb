@@ -4,13 +4,13 @@ RSpec.describe Biz::DayTime do
   context 'when initializing' do
     context 'with an integer' do
       it 'is successful' do
-        expect(described_class.new(1).day_minute).to eq 1
+        expect(described_class.new(1)).to eq described_class.new(1)
       end
     end
 
     context 'with an valid integer-like value' do
       it 'is successful' do
-        expect(described_class.new('1').day_minute).to eq 1
+        expect(described_class.new('1')).to eq described_class.new(1)
       end
     end
 
@@ -29,7 +29,9 @@ RSpec.describe Biz::DayTime do
 
   describe '.from_hour' do
     it 'creates a day time from the given hour' do
-      expect(described_class.from_hour(9).day_minute).to eq day_minute(hour: 9)
+      expect(described_class.from_hour(9)).to eq(
+        described_class.new(day_minute(hour: 9))
+      )
     end
   end
 
@@ -47,7 +49,7 @@ RSpec.describe Biz::DayTime do
 
       it 'returns the appropriate day time' do
         expect(described_class.from_timestamp(timestamp)).to eq(
-          day_minute(hour: 21, min: 43)
+          described_class.new(day_minute(hour: 21, min: 43))
         )
       end
     end
@@ -55,31 +57,31 @@ RSpec.describe Biz::DayTime do
 
   describe '.midnight' do
     it 'creates a day time that represents midnight' do
-      expect(described_class.midnight.day_minute).to eq day_minute(hour: 0)
+      expect(described_class.midnight).to eq Biz::DayTime::MIDNIGHT
     end
   end
 
   describe '.noon' do
     it 'creates a day time that represents noon' do
-      expect(described_class.noon.day_minute).to eq day_minute(hour: 12)
+      expect(described_class.noon).to eq Biz::DayTime::NOON
     end
   end
 
   describe '.endnight' do
     it 'creates a day time that represents the end-of-day midnight' do
-      expect(described_class.endnight.day_minute).to eq day_minute(hour: 24)
+      expect(described_class.endnight).to eq Biz::DayTime::ENDNIGHT
     end
   end
 
   describe '.am' do
     it 'creates a day time that represents an a.m. time (midnight)' do
-      expect(described_class.midnight.day_minute).to eq day_minute(hour: 0)
+      expect(described_class.midnight).to eq Biz::DayTime::MIDNIGHT
     end
   end
 
   describe '.pm' do
     it 'creates a day time that represents a p.m. time (noon)' do
-      expect(described_class.noon.day_minute).to eq day_minute(hour: 12)
+      expect(described_class.noon).to eq Biz::DayTime::NOON
     end
   end
 

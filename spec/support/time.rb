@@ -34,22 +34,24 @@ module Biz
       end
 
       def week_minute(args = {})
-        args.fetch(:wday) * Biz::Time::MINUTES_IN_DAY + day_minute(args)
+        args.fetch(:wday).to_i * Biz::Time::MINUTES_IN_DAY + day_minute(args)
       end
 
       def day_minute(args = {})
-        args.fetch(:hour) * Biz::Time::MINUTES_IN_HOUR + args.fetch(:min, 0)
+        args.fetch(:hour).to_i * Biz::Time::MINUTES_IN_HOUR +
+          args.fetch(:min, 0).to_i
       end
 
       def day_since_epoch(args = {})
-        args.fetch(:week) * Biz::Time::DAYS_IN_WEEK + args.fetch(:wday)
+        args.fetch(:week).to_i * Biz::Time::DAYS_IN_WEEK +
+          args.fetch(:wday).to_i
       end
 
       def in_seconds(args = {})
-        args.fetch(:days, 0) * Biz::Time::DAY +
-          args.fetch(:hours, 0) * Biz::Time::HOUR +
-          args.fetch(:minutes, 0) * Biz::Time::MINUTE +
-          args.fetch(:seconds, 0)
+        args.fetch(:days, 0).to_i * Biz::Time::DAY +
+          args.fetch(:hours, 0).to_i * Biz::Time::HOUR +
+          args.fetch(:minutes, 0).to_i * Biz::Time::MINUTE +
+          args.fetch(:seconds, 0).to_i
       end
 
       def schedule(args = {})

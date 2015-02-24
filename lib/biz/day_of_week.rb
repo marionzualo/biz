@@ -3,6 +3,10 @@ module Biz
 
     SYMBOLS = [:sun, :mon, :tue, :wed, :thu, :fri, :sat]
 
+    include Concord.new(:wday)
+
+    extend Forwardable
+
     def self.from_time(time)
       DAYS.fetch(time.wday)
     end
@@ -25,11 +29,14 @@ module Biz
 
     end
 
-    attr_reader :wday
-
     def initialize(wday)
-      @wday = Integer(wday)
+      super(Integer(wday))
     end
+
+    delegate %i[
+      to_i
+      to_int
+    ] => :wday
 
     def contains?(week_time)
       minutes.cover?(week_time)

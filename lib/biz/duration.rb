@@ -3,7 +3,7 @@ module Biz
 
     UNITS = Set.new(%i[second seconds minute minutes hour hours day days])
 
-    include Equalizer.new(:seconds)
+    include Concord.new(:seconds)
     include Comparable
 
     extend Forwardable
@@ -44,13 +44,15 @@ module Biz
 
     end
 
-    attr_reader :seconds
-
-    delegate to_i: :seconds
-
     def initialize(seconds)
-      @seconds = Integer(seconds)
+      super(Integer(seconds))
     end
+
+    delegate %i[
+      to_f
+      to_i
+      to_int
+    ] => :seconds
 
     def in_seconds
       seconds
@@ -68,14 +70,6 @@ module Biz
       seconds / Time::DAY
     end
 
-    def +(other)
-      self.class.new(seconds + other.seconds)
-    end
-
-    def -(other)
-      self.class.new(seconds - other.seconds)
-    end
-
     def positive?
       seconds > 0
     end
@@ -84,11 +78,31 @@ module Biz
       self.class.new(seconds.abs)
     end
 
+    def +(other)
+      case other
+      when self.class
+        self.class.new(seconds + other.seconds)
+      when Numeric
+        self.class.new(seconds + other)
+      else
+        fail TypeError, "#{other.class} can't be coerced into #{self.class}"
+      end
+    end
+
+    def -(other)
+      case other
+      when self.class
+        self.class.new(seconds - other.seconds)
+      when Numeric
+        self.class.new(seconds - other)
+      else
+        fail TypeError, "#{other.class} can't be coerced into #{self.class}"
+      end
+    end
+
     def coerce(other)
       [self.class.new(other), self]
     end
-
-    protected
 
     def <=>(other)
       return nil unless other.respond_to?(:to_i)

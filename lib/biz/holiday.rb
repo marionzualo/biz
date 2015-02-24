@@ -1,15 +1,7 @@
 module Biz
   class Holiday
 
-    include Equalizer.new(:date, :time_zone)
-
-    attr_reader :date,
-                :time_zone
-
-    def initialize(date, time_zone)
-      @date      = date
-      @time_zone = time_zone
-    end
+    include Concord.new(:date, :time_zone)
 
     def contains?(time)
       date == Time.new(time_zone).local(time).to_date

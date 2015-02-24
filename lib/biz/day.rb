@@ -2,6 +2,7 @@ module Biz
   class Day
 
     include Comparable
+    include Concord.new(:day)
 
     extend Forwardable
 
@@ -19,8 +20,6 @@ module Biz
 
     end
 
-    attr_reader :day
-
     delegate %i[
       to_s
       to_i
@@ -28,7 +27,7 @@ module Biz
     ] => :day
 
     def initialize(day)
-      @day = Integer(day)
+      super(Integer(day))
     end
 
     def to_date
@@ -36,10 +35,8 @@ module Biz
     end
 
     def coerce(other)
-      [self.class.new(other), self]
+      [self.class.new(Integer(other)), self]
     end
-
-    protected
 
     def <=>(other)
       return nil unless other.respond_to?(:to_i)
