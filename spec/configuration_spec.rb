@@ -111,6 +111,36 @@ RSpec.describe Biz::Configuration do
         ]
       end
     end
+
+    context 'when the hours are not normalized' do
+      subject(:configuration) do
+        Biz::Configuration.new(normalize: true) do |config|
+          config.hours     = hours
+          config.time_zone = time_zone
+        end
+      end
+      let(:hours) { {mon: {'22:00' => '02:00'}, tue: {'22:00' => '00:00'}} }
+
+      it 'returns the intervals normalized' do
+        expect(configuration.intervals).to eq [
+          Biz::Interval.new(
+            Biz::WeekTime.start(week_minute(wday: 1, hour: 22)),
+            Biz::WeekTime.end(week_minute(wday: 1, hour: 24)),
+            TZInfo::Timezone.get('America/New_York')
+          ),
+          Biz::Interval.new(
+            Biz::WeekTime.start(week_minute(wday: 2, hour: 0)),
+            Biz::WeekTime.end(week_minute(wday: 2, hour: 2)),
+            TZInfo::Timezone.get('America/New_York')
+          ),
+          Biz::Interval.new(
+            Biz::WeekTime.start(week_minute(wday: 2, hour: 22)),
+            Biz::WeekTime.end(week_minute(wday: 2, hour: 24)),
+            TZInfo::Timezone.get('America/New_York')
+          )
+        ]
+      end
+    end
   end
 
   describe '#holidays' do

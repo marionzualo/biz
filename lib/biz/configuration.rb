@@ -3,8 +3,9 @@ module Biz
 
     include Memoizable
 
-    def initialize
+    def initialize(normalize: false)
       @raw = Raw.new.tap do |raw| yield raw if block_given? end
+      @raw.hours = HoursNormalizer.new(@raw.hours).normalize if normalize
     end
 
     def intervals
@@ -30,6 +31,8 @@ module Biz
     attr_reader :raw
 
     private
+
+    attr_reader :normalize
 
     def weekday_intervals(weekday, hours)
       hours.map { |start_timestamp, end_timestamp|

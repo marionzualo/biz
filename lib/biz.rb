@@ -41,10 +41,12 @@ module Biz
   end
 end
 
+require 'date'
 require 'biz/date'
 require 'biz/time'
 
 require 'biz/calculation'
+require 'biz/hours_normalizer'
 require 'biz/configuration'
 require 'biz/dates'
 require 'biz/day'
