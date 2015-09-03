@@ -28,11 +28,9 @@ module Biz
 
     protected
 
-    attr_reader :raw
+    attr_reader :raw, :normalize
 
     private
-
-    attr_reader :normalize
 
     def weekday_intervals(weekday, hours)
       hours.map { |start_timestamp, end_timestamp|

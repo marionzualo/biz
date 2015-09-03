@@ -3,8 +3,8 @@ module Biz
 
     extend Forwardable
 
-    def initialize(&config)
-      @configuration = Configuration.new(&config)
+    def initialize(normalize: false, &config)
+      @configuration = Configuration.new(normalize: normalize, &config)
     end
 
     delegate %i[
